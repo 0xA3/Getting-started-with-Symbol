@@ -1,0 +1,6 @@
+-lib tink_core
+-lib tink_url
+-cp src
+-D analyzer-optimize
+-main Main
+--interp
