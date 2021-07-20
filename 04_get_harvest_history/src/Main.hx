@@ -64,32 +64,8 @@ function getStatements( address48:String, pageNumber = 1 ) {
 		}
 	});
 }
-	
-
-function processResponses( responses:Array<String> ) {
-	
-	final accountData:Account = try haxe.Json.parse( responses[0] )
-	catch( e ) throw 'Invalid json: ${responses[0]}';
-
-	final statementData:Statement = try haxe.Json.parse( responses[1] )
-	catch( e ) throw 'Invalid json: ${responses[1]}';
-
-	final address48 = accountData.account.address;
-	trace( 'address48 $address48' );
-	for( d in statementData.data ) {
-		final height = d.statement.height;
-		for( receipt in d.statement.receipts ) {
-			trace( 'receipt type ${receipt.type}  targetAddress ${receipt.targetAddress}  ${receipt.targetAddress == address48}' );
-			if( receipt.type == ENUM_HARVEST_FEE && receipt.targetAddress == address48 ) {
-				final amount = Int64.parseString( receipt.amount );
-				trace( 'height: $height, amount: $amount' );
-			}
-		}
-	}
-}
 
 function requestURL( url:String ):Promise<String> {
-
 	final httpRequest = new Http( url );
 	final promiseTrigger = Promise.trigger();
 
